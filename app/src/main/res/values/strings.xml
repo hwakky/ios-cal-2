@@ -22,4 +22,5 @@
     <string name="pm">+/-</string>
     <string name="percen">%</string>
     <string name="devide">\u00f7</string>
+    <string name="ac">AC</string>
 </resources>

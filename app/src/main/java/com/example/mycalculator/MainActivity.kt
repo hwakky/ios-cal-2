@@ -1,7 +1,9 @@
 package com.example.mycalculator
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.style.BackgroundColorSpan
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -11,7 +13,7 @@ import java.lang.ArithmeticException
 
 class MainActivity : AppCompatActivity() {
     private var tvInput: TextView? = null
-    var ToggleAC = false
+    private var ButtonC: TextView? = null
     var lastNumeric : Boolean = false
     val myList = mutableListOf<String>()
     var lastDot : Boolean = false
@@ -22,21 +24,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-
-        tvInput = findViewById(R.id.tvInput)
-
+        tvInput = binding.tvInput
+        ButtonC = binding.c
     }
 
     fun onDigit(view: View){
+        if(!checker){
+            tvInput?.text = ""
+            checker = true
+        }
         tvInput?.append((view as Button).text)
+        ButtonC?.setText("C")
         lastNumeric = true
         lastDot = false
     }
     fun onPM(view: View){
         val tvValue = tvInput?.text.toString()
         val calPM = (tvValue.toDouble() *-1).toString()
-        tvInput?.text = removeZeroAfterDot(calPM)
+        tvInput?.setText(removeZeroAfterDot(calPM))
     }
     fun onPer(view:View){
         val tvValue = tvInput?.text.toString()
@@ -45,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun onClear(view: View){
         tvInput?.text = ""
+        ButtonC?.setText("AC")
     }
     fun onDecimalPoint(view:View){
         if(lastNumeric && !lastDot){
@@ -110,9 +116,10 @@ class MainActivity : AppCompatActivity() {
                 tvInput?.append((view as Button).text)
                 lastNumeric = false
                 lastDot = false
-//                myList[0] = tvInput.toString().dropLast(1)
+                checker = false
                 myList.add(tvInput!!.text.toString())
-                tvInput?.text = ""
+                view.setBackgroundColor(Color.WHITE)
+
             }
         }
     }
